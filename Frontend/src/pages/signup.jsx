@@ -29,7 +29,7 @@ function Signup() {
 
       alert("Account created successfully ✅");
 
-      // 4️⃣ Redirect
+      localStorage.setItem("token", res.data.token);  // ADD THIS
       navigate("/dashboard");
 
     } catch (err) {
