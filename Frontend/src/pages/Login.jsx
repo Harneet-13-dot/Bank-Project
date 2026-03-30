@@ -13,14 +13,8 @@ function Login() {
     //api calling time taking so async
   const handleLogin = async () => {
     try {
-      const res = await API.post("/api/auth/login", {
-        email,
-        password
-      });
-
-      console.log(res.data);
-
-      // redirect after login
+      const res = await API.post("/api/auth/login", { email, password });
+      localStorage.setItem("token", res.data.token);  // ADD THIS
       navigate("/dashboard");
 
     } catch (err) {
