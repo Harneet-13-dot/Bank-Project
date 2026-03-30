@@ -6,9 +6,8 @@ const app=express();
 const cors = require("cors");
 
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://bankproject-murex.vercel.app"
+  origin: ["http://localhost:5173",
+    "https://bank-project-1-h4vc.onrender.com"
   ],
   credentials: true
 }));
