@@ -1,0 +1,40 @@
+1. creating environment intsall express and packages
+2. creating main folder src source 
+3. creating app.js containing all the api and middlewares used;
+4. server.js for starting the created server in app.js
+5. connectign srve to db using mongoose
+                MODELS
+6. user register we need model for user
+7. user schema and model will be creating along with password security hashing n all
+    now performing operation on it so
+                Routes are used now
+8. routes folder are used for listing api used
+9. controllers are for logics of these apis
+10. after that account model is created in order to make it active forzen or closed
+11. it is only for  maintaining status of the user
+12. for transaction 
+-> status pending
+-> -100 from a 
+-> +100 for b
+-> status compeleted!
+13. ledger model (for history of amount recieved and paid )
+14. 
+/**
+ * - Create a new transaction
+ *
+ * The 10-STEP TRANSFER FLOW:
+ *
+ * 1. Validate request 
+ * 2. Validate idempotency key (key is correct or not)
+ * 3. Check account status (Active frozen)
+ * 4. Derive sender balance from ledger (sufficient balance)
+ * 5. Create transaction (PENDING)
+ * 6. Create DEBIT ledger entry 
+ * 7. Create CREDIT ledger entry
+ * 8. Mark transaction COMPLETED
+ * 9. Commit MongoDB session
+ * 10. Send email notification
+ */
+
+ 15. now system user is created for providing initial funds (admin)
+ 16. separate middleware is used , new addition in user model 
