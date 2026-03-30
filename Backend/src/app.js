@@ -8,7 +8,7 @@ const cors = require("cors");
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://bankproject-harneet-13-dots-projects.vercel.app"
+    "https://bankproject-murex.vercel.app"
   ],
   credentials: true
 }));
