@@ -9,56 +9,79 @@ function Dashboard() {
   const [account, setAccount] = useState(null);
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
       {/* Navbar */}
       <Navbar />
 
-      <div className="p-4 sm:p-6 max-w-4xl mx-auto">
+      <div className="p-4 sm:p-6 max-w-5xl mx-auto">
 
-        {/* Heading */}
-        <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+        {/* Header */}
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white">
+            Dashboard
+          </h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400 hidden sm:block">
+            Welcome back 👋
+          </p>
+        </div>
 
-        {/* Tabs */}
-        <div className="flex gap-6 mb-6 border-b pb-2 overflow-x-auto">
+        {/* Quick Actions */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
 
-          <button
-            onClick={() => setActiveTab("overview")}
-            className={`pb-2 whitespace-nowrap ${
-              activeTab === "overview"
-                ? "border-b-2 border-blue-600 text-blue-600 font-medium"
-                : "text-gray-500"
-            }`}
-          >
-            Overview
-          </button>
-
-          <button
-            onClick={() => setActiveTab("send")}
-            className={`pb-2 whitespace-nowrap ${
-              activeTab === "send"
-                ? "border-b-2 border-blue-600 text-blue-600 font-medium"
-                : "text-gray-500"
-            }`}
-          >
-            Send Money
-          </button>
-
-          <button
-            onClick={() => setActiveTab("transactions")}
-            className={`pb-2 whitespace-nowrap ${
-              activeTab === "transactions"
-                ? "border-b-2 border-blue-600 text-blue-600 font-medium"
-                : "text-gray-500"
-            }`}
-          >
-            Transactions
-          </button>
+          {[
+            { label: "Send", icon: "💸", color: "bg-blue-100 text-blue-600", tab: "send" },
+            { label: "Request", icon: "📥", color: "bg-green-100 text-green-600" },
+            { label: "Add Money", icon: "🏦", color: "bg-purple-100 text-purple-600" },
+            { label: "History", icon: "📜", color: "bg-orange-100 text-orange-600", tab: "transactions" },
+          ].map((item, i) => (
+            <button
+              key={i}
+              onClick={() => item.tab && setActiveTab(item.tab)}
+              className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-md p-4 flex flex-col items-center transition"
+            >
+              <div className={`text-2xl p-3 rounded-full ${item.color}`}>
+                {item.icon}
+              </div>
+              <p className="mt-2 text-sm font-medium text-gray-800 dark:text-white">
+                {item.label}
+              </p>
+            </button>
+          ))}
 
         </div>
 
-        {/* Content Section */}
-        <div className="bg-white rounded-2xl shadow p-4 sm:p-6">
+        {/* Tabs */}
+        <div className="flex gap-6 mb-6 border-b border-gray-200 dark:border-gray-700 overflow-x-auto">
+
+          {[
+            { key: "overview", label: "📊 Overview" },
+            { key: "send", label: "💸 Send Money" },
+            { key: "transactions", label: "📜 Transactions" },
+          ].map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => setActiveTab(tab.key)}
+              className={`pb-3 whitespace-nowrap transition ${
+                activeTab === tab.key
+                  ? "border-b-2 border-blue-600 text-blue-600 font-semibold"
+                  : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+
+        </div>
+
+        {/* Section Title */}
+        {activeTab === "overview" && (
+          <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">
+            Account Overview
+          </h2>
+        )}
+
+        {/* Content */}
+        <div className="bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 sm:p-6 transition">
 
           {activeTab === "overview" && (
             <AccountList setAccount={setAccount} />

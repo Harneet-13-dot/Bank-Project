@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import API from "../api/axios";
 import { useNavigate } from "react-router-dom";
 function Signup() {
@@ -7,6 +7,15 @@ function Signup() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const handleSignup = async () => {
+    if (!name || !email || !password) {
+      toast.error("Please fill all fields ⚠️");
+      return;
+    }
+
+    if (loading) return;
+
+    setLoading(true);
+
     try {
       await API.post("/api/auth/register", {
         name,
@@ -22,8 +31,13 @@ function Signup() {
       alert("Account created successfully ✅");
       navigate("/dashboard");
     } catch (err) {
-      console.log("ERROR:", err.response?.data);
-      alert(err.response?.data?.message || "Signup failed ❌");
+      console.log(err.response?.data);
+
+      toast.error(
+        err.response?.data?.message || "Signup failed ❌"
+      );
+    } finally {
+      setLoading(false);
     }
   };
   return (

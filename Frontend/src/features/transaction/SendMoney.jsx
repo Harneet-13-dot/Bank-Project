@@ -1,66 +1,97 @@
 import { useState } from "react";
 import API from "../../api/axios";
+import toast from "react-hot-toast";
 
-function SendMoney({account}) {
+function SendMoney({ account }) {
   const [loading, setLoading] = useState(false);
   const [toAccount, setToAccount] = useState("");
   const [amount, setAmount] = useState("");
 
-const handleSend = async () => {
-  if (!account) {
-    alert("Account not loaded yet");
-    return;
-  }
-  //already sending ;ignorre click
-  if (loading) return;   // 🚫 prevent double click
+  const handleSend = async () => {
+    if (!account) {
+      toast.error("Account not loaded yet");
+      return;
+    }
 
-  setLoading(true);
+    if (!toAccount || !amount) {
+      toast.error("Please fill all fields ⚠️");
+      return;
+    }
 
-  try {
-    await API.post("/api/transactions", {
-      fromAccount: account._id,
-      toAccount: toAccount,
-      amount: Number(amount),
-      idempotencyKey: Date.now().toString()
-    });
+    if (loading) return;
 
-    alert("Money Sent ✅");
-    window.location.reload();
+    setLoading(true);
 
-  } catch (err) {
-    console.log(err.response?.data);
-    alert("Transaction Failed ❌");
-  }
+    try {
+      await API.post("/api/transactions", {
+        fromAccount: account._id,
+        toAccount: toAccount,
+        amount: Number(amount),
+        idempotencyKey: Date.now().toString(),
+      });
 
-  setLoading(false);
-};
+      toast.success("Money Sent Successfully 💸");
+
+      setToAccount("");
+      setAmount("");
+
+    } catch (err) {
+      console.log(err.response?.data);
+
+      toast.error(
+        err.response?.data?.message || "Transaction Failed ❌"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-  <div className="bg-white rounded-2xl shadow p-6">
-    <h3 className="text-lg font-semibold mb-4">Send Money</h3>
+    <div className="bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
 
-    <input
-      className="w-full border p-2 rounded-lg mb-3"
-      placeholder="Receiver Account ID"
-      onChange={(e) => setToAccount(e.target.value)}
-    />
+      <h3 className="text-lg font-semibold mb-4">
+        Send Money
+      </h3>
 
-    <input
-      className="w-full border p-2 rounded-lg mb-4"
-      type="number"
-      placeholder="Amount"
-      onChange={(e) => setAmount(e.target.value)}
-    />
+      {/* Input: Receiver */}
+      <input
+        className="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 p-3 rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Receiver Account ID"
+        value={toAccount}
+        onChange={(e) => setToAccount(e.target.value)}
+      />
 
-    <button
-      onClick={handleSend}
-      disabled={loading}
-      className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
-    >
-      {loading ? "Sending..." : "Send Money"}
-    </button>
-  </div>
-);
+      {/* Input: Amount */}
+      <input
+        className="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 p-3 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        type="number"
+        placeholder="Amount"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+      />
+
+      {/* Button */}
+      <button
+        onClick={handleSend}
+        disabled={loading}
+        className={`w-full py-3 rounded-lg font-medium transition flex justify-center items-center gap-2 ${
+          loading
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-blue-600 hover:bg-blue-700 text-white"
+        }`}
+      >
+        {loading ? (
+          <>
+            <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            Sending...
+          </>
+        ) : (
+          "Send Money"
+        )}
+      </button>
+
+    </div>
+  );
 }
 
 export default SendMoney;

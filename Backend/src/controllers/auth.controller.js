@@ -24,11 +24,13 @@ async function userRegisterController(req,res){
 
     const token =jwt.sign({userId:user._id},process.env.JWT_SECRET,{expiresIn :"3d"})
 
+    
+    // updated cookies issue
     res.cookie("token", token, {
     httpOnly: true,
     secure: true,
-    sameSite: "None"
-})
+    sameSite: "None",
+    });
 
     res.status(201).json({
         user:{
@@ -71,11 +73,12 @@ async function userLoginController(req,res){
 
     const token =jwt.sign({userId:user._id},process.env.JWT_SECRET,{expiresIn :"3d"})
 
+    // updated cookies issue
     res.cookie("token", token, {
     httpOnly: true,
     secure: true,
-    sameSite: "None"
-})
+    sameSite: "None",
+    });
 
     res.status(200).json({
         user:{
