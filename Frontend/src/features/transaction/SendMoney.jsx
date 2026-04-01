@@ -87,34 +87,35 @@ return (
       Send Money
     </h3>
 
-    {/* 🔍 Input + Verify */}
-    <div className="flex gap-2 mb-2">
-      <input
-        className="flex-1 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="Enter username or email"
-        value={toAccount}
-        onChange={(e) => {
-          setToAccount(e.target.value);
-          setUserPreview(null); // reset on change
-        }}
-      />
+    {/* 🔍 Username Input (REMOVED flex row) */}
+    <input
+      className="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 p-3 rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      placeholder="Enter username or email"
+      value={toAccount}
+      onChange={(e) => {
+        setToAccount(e.target.value);
+        setUserPreview(null); // reset on change
+      }}
+    />
 
+    {/* 🔥 VERIFY BUTTON MOVED BELOW + CENTERED */}
+    <div className="flex justify-center mb-3">
       <button
         onClick={handleVerify}
         disabled={verifying}
-        className={`px-4 rounded-lg text-sm font-medium ${
+        className={`px-6 py-2 rounded-lg text-sm font-medium ${
           verifying
             ? "bg-gray-400"
             : "bg-blue-600 hover:bg-blue-700 text-white"
         }`}
       >
-        {verifying ? "..." : "Verify"}
+        {verifying ? "Verifying..." : "Verify User"}
       </button>
     </div>
 
     {/* ❌ Not verified */}
     {!userPreview && toAccount && (
-      <p className="text-sm text-red-500 mb-2">
+      <p className="text-sm text-red-500 mb-2 text-center">
         ❌ User not verified
       </p>
     )}

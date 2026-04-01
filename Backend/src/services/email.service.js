@@ -41,25 +41,151 @@ const sendEmail = async (to, subject, text, html) => {
   }
 };
 
+
 async function sendRegistrationEmail(userEmail, name) {
-    const subject = "Welcome to Backend Ledger!";
-    const text = `Hello ${name},\n\nThank you for registering at Backend Ledger. We are glad to have you onboard!`;
-    const html = `<p>Hello ${name},</p> <p>Thank you for registering at Backend Ledger. We are glad to have you onboard!</p>`;
-    await sendEmail(userEmail, subject, text, html);
+  const subject = "🎉 Welcome to PayFlow";
+
+  const text = `
+Hello ${name},
+
+Welcome to PayFlow!
+
+We're excited to have you on board. You can now send and request money securely.
+
+Regards,
+PayFlow Team
+`;
+
+  const html = `
+  <div style="font-family: Arial, sans-serif; padding: 20px; background: #f9fafb;">
+    
+    <div style="max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 10px;">
+      
+      <h2 style="color: #2563eb;">🎉 Welcome to PayFlow</h2>
+
+      <p>Hello <strong>${name}</strong>,</p>
+
+      <p>We're excited to have you onboard 🚀</p>
+
+      <p>You can now send and request money securely using PayFlow.</p>
+
+      <hr style="margin: 20px 0;" />
+
+      <p style="font-size: 14px; color: #6b7280;">
+        Regards,<br/>
+        <strong>PayFlow Team</strong>
+      </p>
+
+    </div>
+
+  </div>
+  `;
+
+  await sendEmail(userEmail, subject, text, html);
 }
 
-async function sendTransactionEmail(userEmail,name,amount,toAcccount){
-  const subject = "Transaction Successful";
-    const text = `Hello ${name},\n\nYour Transaction of $${amount} to account $${toAcccount} was succesfull \n\n Best regards \n My Team`;
-    const html = `<p>Hello ${name},</p> <p>Your Transaction of $${amount} to account $${toAcccount} was succesfull </p> <p>Best regards My Team</p>`;
-    await sendEmail(userEmail, subject, text, html);
+
+async function sendTransactionEmail(userEmail, name, amount, toAccount) {
+  const subject = "💸 Payment Successful";
+
+  const text = `
+Hello ${name},
+
+Your payment of ₹${amount} has been successfully sent.
+
+Recipient Account: ${toAccount}
+
+If you did not perform this transaction, please contact support immediately.
+
+Regards,
+PayFlow Team
+`;
+
+  const html = `
+  <div style="font-family: Arial, sans-serif; padding: 20px; background: #f9fafb;">
+    
+    <div style="max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 10px; border: 1px solid #e5e7eb;">
+      
+      <h2 style="color: #16a34a;">💸 Payment Successful</h2>
+
+      <p>Hello <strong>${name}</strong>,</p>
+
+      <p>Your payment has been successfully processed.</p>
+
+      <div style="margin: 15px 0; padding: 15px; background: #f3f4f6; border-radius: 8px;">
+        <p><strong>Amount:</strong> ₹${amount}</p>
+        <p><strong>Recipient Account:</strong> ${toAccount}</p>
+      </div>
+
+      <p style="font-size: 14px; color: #6b7280;">
+        If you did not perform this transaction, please contact support immediately.
+      </p>
+
+      <hr style="margin: 20px 0;" />
+
+      <p style="font-size: 14px; color: #6b7280;">
+        Regards,<br/>
+        <strong>PayFlow Team</strong>
+      </p>
+
+    </div>
+
+  </div>
+  `;
+
+  await sendEmail(userEmail, subject, text, html);
 }
 
-async function sendTransactionFailedEmail(userEmail,name,amount,toAcccount){
-  const subject = "Transaction Failed";
-    const text = `Hello ${name},\n\nYour Transaction of $${amount} to account $${toAcccount} was FAILED   \n My Team`;
-    const html = `<p>Hello ${name},</p> <p>Your Transaction of $${amount} to account $${toAcccount} was FAILED </p> <p>My Team</p>`;
-    await sendEmail(userEmail, subject, text, html);
+
+async function sendTransactionFailedEmail(userEmail, name, amount, toAccount) {
+  const subject = "❌ Payment Failed";
+
+  const text = `
+Hello ${name},
+
+Your payment of ₹${amount} could not be processed.
+
+Recipient Account: ${toAccount}
+
+Please try again or check your balance.
+
+Regards,
+PayFlow Team
+`;
+
+  const html = `
+  <div style="font-family: Arial, sans-serif; padding: 20px; background: #f9fafb;">
+    
+    <div style="max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 10px; border: 1px solid #e5e7eb;">
+      
+      <h2 style="color: #dc2626;">❌ Payment Failed</h2>
+
+      <p>Hello <strong>${name}</strong>,</p>
+
+      <p>Your payment could not be processed.</p>
+
+      <div style="margin: 15px 0; padding: 15px; background: #fef2f2; border-radius: 8px;">
+        <p><strong>Amount:</strong> ₹${amount}</p>
+        <p><strong>Recipient Account:</strong> ${toAccount}</p>
+      </div>
+
+      <p style="font-size: 14px; color: #6b7280;">
+        Please check your balance or try again later.
+      </p>
+
+      <hr style="margin: 20px 0;" />
+
+      <p style="font-size: 14px; color: #6b7280;">
+        Regards,<br/>
+        <strong>PayFlow Team</strong>
+      </p>
+
+    </div>
+
+  </div>
+  `;
+
+  await sendEmail(userEmail, subject, text, html);
 }
 
 module.exports = {

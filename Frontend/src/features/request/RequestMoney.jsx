@@ -68,92 +68,99 @@ function RequestMoney() {
     }
   };
 
-  return (
-    <div className="space-y-4">
-      
-      {/* Title */}
-      <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
-        Request Money
-      </h2>
+return (
+  <div className="space-y-4">
+    
+    {/* Title */}
+    <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
+      Request Money
+    </h2>
 
-      {/* 🔍 Input + Verify */}
-      <div className="flex gap-2">
-        <input
-          type="text"
-          placeholder="Enter username or email"
-          value={to}
-          onChange={(e) => {
-            setTo(e.target.value);
-            setUserPreview(null); // 🔥 reset if changed
-          }}
-          className="flex-1 p-3 border rounded-lg 
-          text-black dark:text-white 
-          bg-white dark:bg-gray-700 
-          placeholder-gray-400 dark:placeholder-gray-300 
-          focus:outline-none focus:ring-2 focus:ring-green-500"
-        />
+    {/* 🔍 Username Input */}
+    <input
+      type="text"
+      placeholder="Enter username or email"
+      value={to}
+      onChange={(e) => {
+        setTo(e.target.value);
+        setUserPreview(null); // reset on change
+      }}
+      className="w-full p-3 border rounded-lg 
+      text-black dark:text-white 
+      bg-white dark:bg-gray-700 
+      placeholder-gray-400 dark:placeholder-gray-300 
+      focus:outline-none focus:ring-2 focus:ring-green-500"
+    />
 
-        {/* 🔥 VERIFY BUTTON */}
-        <button
-          onClick={handleVerify}
-          disabled={verifying}
-          className={`px-4 rounded-lg text-sm font-medium ${
-            verifying
-              ? "bg-gray-400"
-              : "bg-green-500 hover:bg-green-600 text-white"
-          }`}
-        >
-          {verifying ? "..." : "Verify"}
-        </button>
-      </div>
-
-      {/* 🔥 USER PREVIEW */}
-      {userPreview && (
-        <div className="flex items-center gap-3 p-3 rounded-xl border 
-            bg-green-50 dark:bg-green-900/30 
-            border-green-200 dark:border-green-700">
-
-            {/* Avatar */}
-            <div className="w-10 h-10 rounded-full flex items-center justify-center 
-            bg-gradient-to-br from-green-400 to-emerald-600 text-white font-semibold">
-            {userPreview.name.charAt(0).toUpperCase()}
-            </div>
-
-            {/* User Info */}
-            <div className="flex flex-col">
-            <span className="font-medium text-gray-800 dark:text-white">
-                {userPreview.name}
-            </span>
-            <span className="text-xs text-green-600 dark:text-green-400">
-                ✔ Verified user
-            </span>
-            </div>
-        </div>
-        )}
-
-      {/* Amount */}
-      <input
-        type="number"
-        placeholder="Enter Amount"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-        className="w-full p-3 border rounded-lg 
-        text-black dark:text-white 
-        bg-white dark:bg-gray-700 
-        placeholder-gray-400 dark:placeholder-gray-300 
-        focus:outline-none focus:ring-2 focus:ring-green-500"
-      />
-
-      {/* Button */}
+    {/* 🔥 VERIFY BUTTON (CENTERED) */}
+    <div className="flex justify-center">
       <button
-        onClick={handleRequest}
-        className="bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-lg transition w-full"
+        onClick={handleVerify}
+        disabled={verifying}
+        className={`px-6 py-2 rounded-lg text-sm font-medium ${
+          verifying
+            ? "bg-gray-400"
+            : "bg-green-500 hover:bg-green-600 text-white"
+        }`}
       >
-        Send Request
+        {verifying ? "Verifying..." : "Verify User"}
       </button>
-
     </div>
-  );
+
+    {/* ❌ Not verified */}
+    {!userPreview && to && (
+      <p className="text-sm text-red-500 text-center">
+        ❌ User not verified
+      </p>
+    )}
+
+    {/* ✅ USER PREVIEW */}
+    {userPreview && (
+      <div className="flex items-center gap-3 p-3 rounded-xl border 
+        bg-green-50 dark:bg-green-900/30 
+        border-green-200 dark:border-green-700">
+
+        {/* Avatar */}
+        <div className="w-10 h-10 rounded-full flex items-center justify-center 
+          bg-gradient-to-br from-green-400 to-emerald-600 text-white font-semibold">
+          {userPreview.name.charAt(0).toUpperCase()}
+        </div>
+
+        {/* User Info */}
+        <div className="flex flex-col">
+          <span className="font-medium text-gray-800 dark:text-white">
+            {userPreview.name}
+          </span>
+          <span className="text-xs text-green-600 dark:text-green-400">
+            ✔ Verified user
+          </span>
+        </div>
+      </div>
+    )}
+
+    {/* Amount */}
+    <input
+      type="number"
+      placeholder="Enter Amount"
+      value={amount}
+      onChange={(e) => setAmount(e.target.value)}
+      className="w-full p-3 border rounded-lg 
+      text-black dark:text-white 
+      bg-white dark:bg-gray-700 
+      placeholder-gray-400 dark:placeholder-gray-300 
+      focus:outline-none focus:ring-2 focus:ring-green-500"
+    />
+
+    {/* Button */}
+    <button
+      onClick={handleRequest}
+      className="bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-lg transition w-full"
+    >
+      Send Request
+    </button>
+
+  </div>
+);
 }
 
 export default RequestMoney;
