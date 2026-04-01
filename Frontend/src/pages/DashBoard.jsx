@@ -1,15 +1,27 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import AccountList from "../features/account/AccountList";
 import SendMoney from "../features/transaction/SendMoney";
 import TransactionList from "../features/transaction/TransactionList";
+import RequestMoney from "../features/request/RequestMoney";
+import RequestsList from "../features/request/RequestsList";
+
+
 
 function Dashboard() {
   const [activeTab, setActiveTab] = useState("overview");
-  const [account, setAccount] = useState(null);
+  const [account, setAccount] = useState(null);const location = useLocation();
+
+  useEffect(() => {
+  if (location.state?.tab) {
+    setActiveTab(location.state.tab);
+  }
+  }, [location.state]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      
       {/* Navbar */}
       <Navbar />
 
@@ -30,7 +42,7 @@ function Dashboard() {
 
           {[
             { label: "Send", icon: "💸", color: "bg-blue-100 text-blue-600", tab: "send" },
-            { label: "Request", icon: "📥", color: "bg-green-100 text-green-600" },
+            { label: "Request", icon: "📥", color: "bg-green-100 text-green-600", tab: "request" },
             { label: "Add Money", icon: "🏦", color: "bg-purple-100 text-purple-600" },
             { label: "History", icon: "📜", color: "bg-orange-100 text-orange-600", tab: "transactions" },
           ].map((item, i) => (
@@ -56,6 +68,8 @@ function Dashboard() {
           {[
             { key: "overview", label: "📊 Overview" },
             { key: "send", label: "💸 Send Money" },
+            { key: "request", label: "📥 Request Money" },
+            { key: "requests", label: "🔔 Requests" },
             { key: "transactions", label: "📜 Transactions" },
           ].map((tab) => (
             <button
@@ -89,6 +103,14 @@ function Dashboard() {
 
           {activeTab === "send" && (
             <SendMoney account={account} />
+          )}
+
+          {activeTab === "request" && (
+            <RequestMoney />
+          )}
+
+          {activeTab === "requests" && (
+            <RequestsList />
           )}
 
           {activeTab === "transactions" && (

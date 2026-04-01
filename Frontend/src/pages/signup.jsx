@@ -22,15 +22,20 @@ function Signup() {
         email,
         password,
       });
+
       const loginRes = await API.post("/api/auth/login", {
         email,
         password,
       });
+
+
       localStorage.setItem("token", loginRes.data.token);
       await API.post("/api/accounts");
       alert("Account created successfully ✅");
       navigate("/dashboard");
-    } catch (err) {
+    } 
+    
+    catch (err) {
       console.log(err.response?.data);
 
       toast.error(
@@ -40,6 +45,9 @@ function Signup() {
       setLoading(false);
     }
   };
+  
+  
+  
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 to-indigo-200">
       <div className="bg-white/80 backdrop-blur-lg p-6 sm:p-8 rounded-2xl shadow-xl w-[90%] max-w-md border border-gray-200">
