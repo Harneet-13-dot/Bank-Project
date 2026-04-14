@@ -1,7 +1,6 @@
 const userModel=require("../models/user.model")
 const jwt=require("jsonwebtoken")
 const cookieParser=require("cookie-parser")
-const emailService=require('../services/email.service')
 const tokenBlackListModel = require("../models/blackList.model")
 
 async function userRegisterController(req,res){
@@ -41,8 +40,6 @@ async function userRegisterController(req,res){
         token,
         message:"User is registered"
     })
-
-    await emailService.sendRegistrationEmail(user.email,user.name)
 
 }
 
